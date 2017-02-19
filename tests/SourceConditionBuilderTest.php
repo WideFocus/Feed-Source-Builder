@@ -130,7 +130,7 @@ class SourceConditionBuilderTest extends PHPUnit_Framework_TestCase
             ->willReturn($type);
         $condition
             ->expects($this->once())
-            ->method('getCode')
+            ->method('getName')
             ->willReturn($code);
         $condition
             ->expects($this->once())

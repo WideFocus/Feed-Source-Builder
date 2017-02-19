@@ -103,11 +103,11 @@ class SourceFieldBuilderTest extends PHPUnit_Framework_TestCase
             ->willReturn($type);
         $field
             ->expects($this->once())
-            ->method('getCode')
+            ->method('getName')
             ->willReturn($code);
         $field
             ->expects($this->once())
-            ->method('getName')
+            ->method('getLabel')
             ->willReturn($name);
 
         return $field;
