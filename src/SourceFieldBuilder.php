@@ -1,7 +1,7 @@
 <?php
 /**
- * Copyright WideFocus. All rights reserved.
- * http://www.widefocus.net
+ * Copyright WideFocus. See LICENSE.txt.
+ * https://www.widefocus.net
  */
 
 namespace WideFocus\Feed\Source\Builder;
@@ -50,7 +50,7 @@ class SourceFieldBuilder implements SourceFieldBuilderInterface
         foreach ($feed->getFields() as $feedField) {
             $combination->addField(
                 $this->createField($feedField, $parameters),
-                $feedField->getName()
+                $feedField->getLabel()
             );
         }
 
@@ -74,7 +74,7 @@ class SourceFieldBuilder implements SourceFieldBuilderInterface
             $parameters
         );
 
-        $field->setAttributeCode($feedField->getCode());
+        $field->setAttributeCode($feedField->getName());
         return $field;
     }
 }

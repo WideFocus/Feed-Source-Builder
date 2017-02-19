@@ -1,7 +1,7 @@
 <?php
 /**
- * Copyright WideFocus. All rights reserved.
- * http://www.widefocus.net
+ * Copyright WideFocus. See LICENSE.txt.
+ * https://www.widefocus.net
  */
 
 namespace WideFocus\Feed\Source\Builder;
@@ -101,7 +101,7 @@ class SourceConditionBuilder implements SourceConditionBuilderInterface
             $parameters
         );
 
-        $condition->setAttributeCode($feedCondition->getCode());
+        $condition->setAttributeCode($feedCondition->getName());
         $condition->setOperator($feedCondition->getOperator());
         $condition->setValue($feedCondition->getValue());
         return $condition;
