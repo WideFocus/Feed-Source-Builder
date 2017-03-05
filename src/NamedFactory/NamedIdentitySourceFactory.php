@@ -4,16 +4,16 @@
  * https://www.widefocus.net
  */
 
-namespace WideFocus\Feed\Source\Builder\Manager;
+namespace WideFocus\Feed\Source\Builder\NamedFactory;
 
 use WideFocus\Feed\Source\IdentitySourceFactoryInterface;
 use WideFocus\Feed\Source\IdentitySourceInterface;
 use WideFocus\Feed\Source\SourceParametersInterface;
 
 /**
- * Manages identity sources.
+ * Creates identity sources by name.
  */
-class IdentitySourceManager implements IdentitySourceManagerInterface
+class NamedIdentitySourceFactory implements NamedIdentitySourceFactoryInterface
 {
     /**
      * @var IdentitySourceFactoryInterface[]
@@ -27,6 +27,9 @@ class IdentitySourceManager implements IdentitySourceManagerInterface
      * @param SourceParametersInterface $parameters
      *
      * @return IdentitySourceInterface
+     *
+     * @throws InvalidIdentitySourceException When a requested identity source
+     *   does not exist.
      */
     public function createSource(
         string $name,

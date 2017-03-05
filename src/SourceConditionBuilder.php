@@ -8,7 +8,7 @@ namespace WideFocus\Feed\Source\Builder;
 
 use WideFocus\Feed\Entity\Condition\FeedConditionInterface;
 use WideFocus\Feed\Entity\FeedInterface;
-use WideFocus\Feed\Source\Builder\Manager\SourceConditionManagerInterface;
+use WideFocus\Feed\Source\Builder\NamedFactory\NamedSourceConditionFactoryInterface;
 use WideFocus\Feed\Source\Condition\SourceConditionCombinationInterface;
 use WideFocus\Feed\Source\Condition\SourceConditionInterface;
 use WideFocus\Feed\Source\SourceParametersInterface;
@@ -19,18 +19,18 @@ use WideFocus\Feed\Source\SourceParametersInterface;
 class SourceConditionBuilder implements SourceConditionBuilderInterface
 {
     /**
-     * @var SourceConditionManagerInterface
+     * @var NamedSourceConditionFactoryInterface
      */
-    private $conditionManager;
+    private $conditionFactory;
 
     /**
      * Constructor.
      *
-     * @param SourceConditionManagerInterface $conditionManager
+     * @param NamedSourceConditionFactoryInterface $conditionFactory
      */
-    public function __construct(SourceConditionManagerInterface $conditionManager)
+    public function __construct(NamedSourceConditionFactoryInterface $conditionFactory)
     {
-        $this->conditionManager = $conditionManager;
+        $this->conditionFactory = $conditionFactory;
     }
 
     /**
@@ -45,7 +45,7 @@ class SourceConditionBuilder implements SourceConditionBuilderInterface
         FeedInterface $feed,
         SourceParametersInterface $parameters
     ): SourceConditionCombinationInterface {
-        $combination = $this->conditionManager
+        $combination = $this->conditionFactory
             ->createCombinationCondition($parameters);
 
         $combination->setOperator(SourceConditionCombinationInterface::OPERATOR_AND);
@@ -64,6 +64,8 @@ class SourceConditionBuilder implements SourceConditionBuilderInterface
      * @param SourceConditionCombinationInterface $combination
      * @param FeedConditionInterface[]            $feedConditions
      * @param SourceParametersInterface           $parameters
+     *
+     * @return void
      */
     protected function addConditionsToCombination(
         SourceConditionCombinationInterface $combination,
@@ -96,7 +98,7 @@ class SourceConditionBuilder implements SourceConditionBuilderInterface
         FeedConditionInterface $feedCondition,
         SourceParametersInterface $parameters
     ): SourceConditionInterface {
-        $condition = $this->conditionManager->createCondition(
+        $condition = $this->conditionFactory->createCondition(
             $feedCondition->getType(),
             $parameters
         );

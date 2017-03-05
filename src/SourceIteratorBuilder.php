@@ -7,7 +7,7 @@
 namespace WideFocus\Feed\Source\Builder;
 
 use WideFocus\Feed\Entity\FeedInterface;
-use WideFocus\Feed\Source\Builder\Manager\IdentitySourceManagerInterface;
+use WideFocus\Feed\Source\Builder\NamedFactory\NamedIdentitySourceFactoryInterface;
 use WideFocus\Feed\Source\Iterator\SourceIteratorFactoryInterface;
 use WideFocus\Feed\Source\Iterator\SourceIteratorInterface;
 
@@ -19,9 +19,9 @@ class SourceIteratorBuilder implements SourceIteratorBuilderInterface
     private $sourceIteratorFactory;
 
     /**
-     * @var IdentitySourceManagerInterface
+     * @var NamedIdentitySourceFactoryInterface
      */
-    private $identitySourceManager;
+    private $identitySourceFactory;
 
     /**
      * @var SourceConditionBuilderInterface
@@ -41,21 +41,21 @@ class SourceIteratorBuilder implements SourceIteratorBuilderInterface
     /**
      * Constructor.
      *
-     * @param SourceIteratorFactoryInterface   $sourceIteratorFactory
-     * @param IdentitySourceManagerInterface   $identitySourceManager
-     * @param SourceConditionBuilderInterface  $sourceConditionBuilder
-     * @param SourceFieldBuilderInterface      $sourceFieldBuilder
-     * @param SourceParametersBuilderInterface $parametersBuilder
+     * @param SourceIteratorFactoryInterface      $sourceIteratorFactory
+     * @param NamedIdentitySourceFactoryInterface $identitySourceFactory
+     * @param SourceConditionBuilderInterface     $sourceConditionBuilder
+     * @param SourceFieldBuilderInterface         $sourceFieldBuilder
+     * @param SourceParametersBuilderInterface    $parametersBuilder
      */
     public function __construct(
         SourceIteratorFactoryInterface $sourceIteratorFactory,
-        IdentitySourceManagerInterface $identitySourceManager,
+        NamedIdentitySourceFactoryInterface $identitySourceFactory,
         SourceConditionBuilderInterface $sourceConditionBuilder,
         SourceFieldBuilderInterface $sourceFieldBuilder,
         SourceParametersBuilderInterface $parametersBuilder
     ) {
         $this->sourceIteratorFactory  = $sourceIteratorFactory;
-        $this->identitySourceManager  = $identitySourceManager;
+        $this->identitySourceFactory  = $identitySourceFactory;
         $this->sourceConditionBuilder = $sourceConditionBuilder;
         $this->sourceFieldBuilder     = $sourceFieldBuilder;
         $this->parametersBuilder      = $parametersBuilder;
@@ -70,13 +70,12 @@ class SourceIteratorBuilder implements SourceIteratorBuilderInterface
      */
     public function buildIterator(
         FeedInterface $feed
-    ): SourceIteratorInterface
-    {
+    ): SourceIteratorInterface {
         $parameters = $this->parametersBuilder
             ->buildParameters($feed);
 
         return $this->sourceIteratorFactory->createIterator(
-            $this->identitySourceManager->createSource(
+            $this->identitySourceFactory->createSource(
                 $feed->getSourceType(),
                 $parameters
             ),

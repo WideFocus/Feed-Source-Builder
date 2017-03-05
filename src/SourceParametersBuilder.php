@@ -7,7 +7,7 @@
 namespace WideFocus\Feed\Source\Builder;
 
 use WideFocus\Feed\Entity\FeedInterface;
-use WideFocus\Feed\Source\Builder\Manager\SourceParametersManagerInterface;
+use WideFocus\Feed\Source\Builder\NamedFactory\NamedSourceParametersFactoryInterface;
 use WideFocus\Feed\Source\SourceParametersInterface;
 
 /**
@@ -16,19 +16,19 @@ use WideFocus\Feed\Source\SourceParametersInterface;
 class SourceParametersBuilder implements SourceParametersBuilderInterface
 {
     /**
-     * @var SourceParametersManagerInterface
+     * @var NamedSourceParametersFactoryInterface
      */
-    private $parametersManager;
+    private $parametersFactory;
 
     /**
      * Constructor.
      *
-     * @param SourceParametersManagerInterface $parametersManager
+     * @param NamedSourceParametersFactoryInterface $parametersFactory
      */
     public function __construct(
-        SourceParametersManagerInterface $parametersManager
+        NamedSourceParametersFactoryInterface $parametersFactory
     ) {
-        $this->parametersManager = $parametersManager;
+        $this->parametersFactory = $parametersFactory;
     }
 
     /**
@@ -41,7 +41,7 @@ class SourceParametersBuilder implements SourceParametersBuilderInterface
     public function buildParameters(
         FeedInterface $feed
     ): SourceParametersInterface {
-        return $this->parametersManager
+        return $this->parametersFactory
             ->createParameters(
                 $feed->getSourceType(),
                 iterator_to_array($feed->getSourceParameters())

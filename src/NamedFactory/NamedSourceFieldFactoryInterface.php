@@ -4,7 +4,7 @@
  * https://www.widefocus.net
  */
 
-namespace WideFocus\Feed\Source\Builder\Manager;
+namespace WideFocus\Feed\Source\Builder\NamedFactory;
 
 use WideFocus\Feed\Source\Field\SourceFieldCombinationInterface;
 use WideFocus\Feed\Source\Field\SourceFieldFactoryInterface;
@@ -12,25 +12,11 @@ use WideFocus\Feed\Source\Field\SourceFieldInterface;
 use WideFocus\Feed\Source\SourceParametersInterface;
 
 /**
- * Manages source fields.
+ * Creates source fields by name.
  */
-class SourceFieldManager implements SourceFieldManagerInterface
+interface NamedSourceFieldFactoryInterface
 {
-    /**
-     * @var SourceFieldFactoryInterface[]
-     */
-    private $factories = [];
-
-    /**
-     * Constructor.
-     *
-     * @param SourceFieldFactoryInterface $combinationFactory
-     */
-    public function __construct(
-        SourceFieldFactoryInterface $combinationFactory
-    ) {
-        $this->addFieldFactory($combinationFactory, self::COMBINATION_NAME);
-    }
+    const COMBINATION_NAME = 'combination';
 
     /**
      * Create a field.
@@ -43,13 +29,7 @@ class SourceFieldManager implements SourceFieldManagerInterface
     public function createField(
         string $name,
         SourceParametersInterface $parameters
-    ): SourceFieldInterface {
-        if (!array_key_exists($name, $this->factories)) {
-            throw InvalidSourceFieldException::notRegistered($name);
-        }
-        return $this->factories[$name]
-            ->createField($parameters);
-    }
+    ): SourceFieldInterface;
 
     /**
      * Create a combination field.
@@ -60,11 +40,7 @@ class SourceFieldManager implements SourceFieldManagerInterface
      */
     public function createCombinationField(
         SourceParametersInterface $parameters
-    ): SourceFieldCombinationInterface {
-        /** @var SourceFieldCombinationInterface $field */
-        $field = $this->createField(self::COMBINATION_NAME, $parameters);
-        return $field;
-    }
+    ): SourceFieldCombinationInterface;
 
     /**
      * Add a field factory.
@@ -77,7 +53,5 @@ class SourceFieldManager implements SourceFieldManagerInterface
     public function addFieldFactory(
         SourceFieldFactoryInterface $factory,
         string $name
-    ) {
-        $this->factories[$name] = $factory;
-    }
+    );
 }

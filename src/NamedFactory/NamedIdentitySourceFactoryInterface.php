@@ -4,16 +4,16 @@
  * https://www.widefocus.net
  */
 
-namespace WideFocus\Feed\Source\Builder\Manager;
+namespace WideFocus\Feed\Source\Builder\NamedFactory;
 
 use WideFocus\Feed\Source\IdentitySourceFactoryInterface;
 use WideFocus\Feed\Source\IdentitySourceInterface;
 use WideFocus\Feed\Source\SourceParametersInterface;
 
 /**
- * Manages identity sources.
+ * Creates identity sources by name.
  */
-interface IdentitySourceManagerInterface
+interface NamedIdentitySourceFactoryInterface
 {
     /**
      * Create an identity source.

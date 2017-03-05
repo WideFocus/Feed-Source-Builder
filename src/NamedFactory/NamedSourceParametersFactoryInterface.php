@@ -4,14 +4,15 @@
  * https://www.widefocus.net
  */
 
-namespace WideFocus\Feed\Source\Builder\Manager;
+namespace WideFocus\Feed\Source\Builder\NamedFactory;
+
 use WideFocus\Feed\Source\SourceParametersFactoryInterface;
 use WideFocus\Feed\Source\SourceParametersInterface;
 
 /**
- * Manages source parameters objects.
+ * Creates source parameters objects by name
  */
-interface SourceParametersManagerInterface
+interface NamedSourceParametersFactoryInterface
 {
     /**
      * Create parameters.

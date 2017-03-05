@@ -4,7 +4,7 @@
  * https://www.widefocus.net
  */
 
-namespace WideFocus\Feed\Source\Builder\Manager;
+namespace WideFocus\Feed\Source\Builder\NamedFactory;
 
 use InvalidArgumentException;
 

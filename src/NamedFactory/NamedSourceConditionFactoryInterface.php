@@ -4,7 +4,7 @@
  * https://www.widefocus.net
  */
 
-namespace WideFocus\Feed\Source\Builder\Manager;
+namespace WideFocus\Feed\Source\Builder\NamedFactory;
 
 use WideFocus\Feed\Source\Condition\SourceConditionCombinationInterface;
 use WideFocus\Feed\Source\Condition\SourceConditionFactoryInterface;
@@ -12,9 +12,9 @@ use WideFocus\Feed\Source\Condition\SourceConditionInterface;
 use WideFocus\Feed\Source\SourceParametersInterface;
 
 /**
- * Manages source conditions.
+ * Creates source conditions by name.
  */
-interface SourceConditionManagerInterface
+interface NamedSourceConditionFactoryInterface
 {
     const COMBINATION_NAME = 'combination';
 

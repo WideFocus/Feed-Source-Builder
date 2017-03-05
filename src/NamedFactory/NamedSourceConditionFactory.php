@@ -4,7 +4,7 @@
  * https://www.widefocus.net
  */
 
-namespace WideFocus\Feed\Source\Builder\Manager;
+namespace WideFocus\Feed\Source\Builder\NamedFactory;
 
 use WideFocus\Feed\Source\Condition\SourceConditionCombinationInterface;
 use WideFocus\Feed\Source\Condition\SourceConditionFactoryInterface;
@@ -12,9 +12,9 @@ use WideFocus\Feed\Source\Condition\SourceConditionInterface;
 use WideFocus\Feed\Source\SourceParametersInterface;
 
 /**
- * Manages source conditions.
+ * Creates source conditions by name.
  */
-class SourceConditionManager implements SourceConditionManagerInterface
+class NamedSourceConditionFactory implements NamedSourceConditionFactoryInterface
 {
     /**
      * @var SourceConditionFactoryInterface[]
@@ -65,8 +65,7 @@ class SourceConditionManager implements SourceConditionManagerInterface
      */
     public function createCombinationCondition(
         SourceParametersInterface $parameters
-    ): SourceConditionCombinationInterface
-    {
+    ): SourceConditionCombinationInterface {
         /** @var SourceConditionCombinationInterface $condition */
         $condition = $this->createCondition(
             self::COMBINATION_NAME,

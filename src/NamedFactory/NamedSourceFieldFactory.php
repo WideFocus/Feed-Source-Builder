@@ -4,7 +4,7 @@
  * https://www.widefocus.net
  */
 
-namespace WideFocus\Feed\Source\Builder\Manager;
+namespace WideFocus\Feed\Source\Builder\NamedFactory;
 
 use WideFocus\Feed\Source\Field\SourceFieldCombinationInterface;
 use WideFocus\Feed\Source\Field\SourceFieldFactoryInterface;
@@ -12,11 +12,25 @@ use WideFocus\Feed\Source\Field\SourceFieldInterface;
 use WideFocus\Feed\Source\SourceParametersInterface;
 
 /**
- * Manages source fields.
+ * Creates source fields by name.
  */
-interface SourceFieldManagerInterface
+class NamedSourceFieldFactory implements NamedSourceFieldFactoryInterface
 {
-    const COMBINATION_NAME = 'combination';
+    /**
+     * @var SourceFieldFactoryInterface[]
+     */
+    private $factories = [];
+
+    /**
+     * Constructor.
+     *
+     * @param SourceFieldFactoryInterface $combinationFactory
+     */
+    public function __construct(
+        SourceFieldFactoryInterface $combinationFactory
+    ) {
+        $this->addFieldFactory($combinationFactory, self::COMBINATION_NAME);
+    }
 
     /**
      * Create a field.
@@ -25,11 +39,19 @@ interface SourceFieldManagerInterface
      * @param SourceParametersInterface $parameters
      *
      * @return SourceFieldInterface
+     *
+     * @throws InvalidSourceFieldException When the field does not exist.
      */
     public function createField(
         string $name,
         SourceParametersInterface $parameters
-    ): SourceFieldInterface;
+    ): SourceFieldInterface {
+        if (!array_key_exists($name, $this->factories)) {
+            throw InvalidSourceFieldException::notRegistered($name);
+        }
+        return $this->factories[$name]
+            ->createField($parameters);
+    }
 
     /**
      * Create a combination field.
@@ -40,7 +62,11 @@ interface SourceFieldManagerInterface
      */
     public function createCombinationField(
         SourceParametersInterface $parameters
-    ): SourceFieldCombinationInterface;
+    ): SourceFieldCombinationInterface {
+        /** @var SourceFieldCombinationInterface $field */
+        $field = $this->createField(self::COMBINATION_NAME, $parameters);
+        return $field;
+    }
 
     /**
      * Add a field factory.
@@ -53,5 +79,7 @@ interface SourceFieldManagerInterface
     public function addFieldFactory(
         SourceFieldFactoryInterface $factory,
         string $name
-    );
+    ) {
+        $this->factories[$name] = $factory;
+    }
 }
