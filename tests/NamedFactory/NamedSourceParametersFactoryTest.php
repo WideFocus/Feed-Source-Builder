@@ -4,17 +4,17 @@
  * https://www.widefocus.net
  */
 
-namespace WideFocus\Feed\Source\Builder\Tests\Manager;
+namespace WideFocus\Feed\Source\Builder\Tests\NamedFactory;
 
 use PHPUnit_Framework_TestCase;
-use WideFocus\Feed\Source\Builder\Manager\SourceParametersManager;
+use WideFocus\Feed\Source\Builder\NamedFactory\NamedSourceParametersFactory;
 use WideFocus\Feed\Source\SourceParametersFactoryInterface;
 use WideFocus\Feed\Source\SourceParametersInterface;
 
 /**
- * @coversDefaultClass \WideFocus\Feed\Source\Builder\Manager\SourceParametersManager
+ * @coversDefaultClass \WideFocus\Feed\Source\Builder\NamedFactory\NamedSourceParametersFactory
  */
-class SourceParametersManagerTest extends PHPUnit_Framework_TestCase
+class NamedSourceParametersFactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @return void
@@ -27,25 +27,25 @@ class SourceParametersManagerTest extends PHPUnit_Framework_TestCase
         $data = ['some_data'];
 
         $parameters = $this->createMock(SourceParametersInterface::class);
-        $factory = $this->createMock(SourceParametersFactoryInterface::class);
+        $factory    = $this->createMock(SourceParametersFactoryInterface::class);
         $factory
             ->expects($this->once())
             ->method('createParameters')
             ->with($data)
             ->willReturn($parameters);
 
-        $manager = new SourceParametersManager();
-        $manager->addParametersFactory($factory, 'foo');
+        $namedFactory = new NamedSourceParametersFactory();
+        $namedFactory->addParametersFactory($factory, 'foo');
         $this->assertEquals(
             $parameters,
-            $manager->createParameters('foo', $data)
+            $namedFactory->createParameters('foo', $data)
         );
     }
 
     /**
      * @return void
      *
-     * @expectedException \WideFocus\Feed\Source\Builder\Manager\InvalidSourceParametersException
+     * @expectedException \WideFocus\Feed\Source\Builder\NamedFactory\InvalidSourceParametersException
      *
      * @covers ::createParameters
      */
@@ -53,7 +53,7 @@ class SourceParametersManagerTest extends PHPUnit_Framework_TestCase
     {
         $data = ['some_data'];
 
-        $manager = new SourceParametersManager();
-        $manager->createParameters('not_existing', $data);
+        $namedFactory = new NamedSourceParametersFactory();
+        $namedFactory->createParameters('not_existing', $data);
     }
 }

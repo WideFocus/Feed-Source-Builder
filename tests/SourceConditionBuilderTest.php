@@ -10,7 +10,7 @@ use PHPUnit_Framework_MockObject_MockObject;
 use PHPUnit_Framework_TestCase;
 use WideFocus\Feed\Entity\Condition\FeedConditionInterface;
 use WideFocus\Feed\Entity\FeedInterface;
-use WideFocus\Feed\Source\Builder\Manager\SourceConditionManagerInterface;
+use WideFocus\Feed\Source\Builder\NamedFactory\NamedSourceConditionFactoryInterface;
 use WideFocus\Feed\Source\Builder\SourceConditionBuilder;
 use WideFocus\Feed\Source\Condition\SourceConditionCombinationInterface;
 use WideFocus\Feed\Source\Condition\SourceConditionInterface;
@@ -29,7 +29,7 @@ class SourceConditionBuilderTest extends PHPUnit_Framework_TestCase
     public function testConstructor(): SourceConditionBuilder
     {
         return new SourceConditionBuilder(
-            $this->createMock(SourceConditionManagerInterface::class)
+            $this->createMock(NamedSourceConditionFactoryInterface::class)
         );
     }
 
@@ -79,31 +79,31 @@ class SourceConditionBuilderTest extends PHPUnit_Framework_TestCase
             ->method('addCondition')
             ->withConsecutive($fooSourceCondition, $barSourceCondition);
 
-        // Manager
-        $manager = $this->createMock(SourceConditionManagerInterface::class);
-        $manager
+        // Factory
+        $factory = $this->createMock(NamedSourceConditionFactoryInterface::class);
+        $factory
             ->expects($this->at(0))
             ->method('createCombinationCondition')
             ->with($parameters)
             ->willReturn($combinationSourceCondition);
-        $manager
+        $factory
             ->expects($this->at(1))
             ->method('createCondition')
             ->with('foo_type', $parameters)
             ->willReturn($fooSourceCondition);
-        $manager
+        $factory
             ->expects($this->at(2))
             ->method('createCondition')
             ->with('bar_type', $parameters)
             ->willReturn($barSourceCondition);
-        $manager
+        $factory
             ->expects($this->at(3))
             ->method('createCondition')
             ->with('baz_type', $parameters)
             ->willReturn($barSourceConditionChild);
 
         // Test
-        $builder = new SourceConditionBuilder($manager);
+        $builder = new SourceConditionBuilder($factory);
         $this->assertSame($combinationSourceCondition, $builder->buildConditions($feed, $parameters));
     }
 
@@ -122,7 +122,7 @@ class SourceConditionBuilderTest extends PHPUnit_Framework_TestCase
         string $operator,
         string $value,
         array $children = []
-    ) {
+    ): PHPUnit_Framework_MockObject_MockObject {
         $condition = $this->createMock(FeedConditionInterface::class);
         $condition
             ->expects($this->once())
@@ -162,7 +162,7 @@ class SourceConditionBuilderTest extends PHPUnit_Framework_TestCase
         string $operator,
         string $value,
         array $children = []
-    ) {
+    ): PHPUnit_Framework_MockObject_MockObject {
         $condition = count($children)
             ? $this->createMock(SourceConditionCombinationInterface::class)
             : $this->createMock(SourceConditionInterface::class);

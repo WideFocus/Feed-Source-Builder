@@ -10,7 +10,7 @@ use PHPUnit_Framework_MockObject_MockObject;
 use PHPUnit_Framework_TestCase;
 use WideFocus\Feed\Entity\FeedInterface;
 use WideFocus\Feed\Entity\Field\FeedFieldInterface;
-use WideFocus\Feed\Source\Builder\Manager\SourceFieldManagerInterface;
+use WideFocus\Feed\Source\Builder\NamedFactory\NamedSourceFieldFactoryInterface;
 use WideFocus\Feed\Source\Builder\SourceFieldBuilder;
 use WideFocus\Feed\Source\Field\SourceFieldCombinationInterface;
 use WideFocus\Feed\Source\Field\SourceFieldInterface;
@@ -29,7 +29,7 @@ class SourceFieldBuilderTest extends PHPUnit_Framework_TestCase
     public function testConstructor(): SourceFieldBuilder
     {
         return new SourceFieldBuilder(
-            $this->createMock(SourceFieldManagerInterface::class)
+            $this->createMock(NamedSourceFieldFactoryInterface::class)
         );
     }
 
@@ -64,26 +64,26 @@ class SourceFieldBuilderTest extends PHPUnit_Framework_TestCase
             ->method('addField')
             ->withConsecutive([$fooSourceField, 'Foo'], [$barSourceField, 'Bar']);
 
-        // Manager
-        $manager = $this->createMock(SourceFieldManagerInterface::class);
-        $manager
+        // Factory
+        $factory = $this->createMock(NamedSourceFieldFactoryInterface::class);
+        $factory
             ->expects($this->at(0))
             ->method('createCombinationField')
             ->with($parameters)
             ->willReturn($combinationSourceField);
-        $manager
+        $factory
             ->expects($this->at(1))
             ->method('createField')
             ->with('foo_type', $parameters)
             ->willReturn($fooSourceField);
-        $manager
+        $factory
             ->expects($this->at(2))
             ->method('createField')
             ->with('bar_type', $parameters)
             ->willReturn($barSourceField);
 
         // Test
-        $builder = new SourceFieldBuilder($manager);
+        $builder = new SourceFieldBuilder($factory);
         $this->assertSame($combinationSourceField, $builder->buildFields($feed, $parameters));
     }
 
@@ -94,8 +94,11 @@ class SourceFieldBuilderTest extends PHPUnit_Framework_TestCase
      *
      * @return PHPUnit_Framework_MockObject_MockObject
      */
-    protected function createFeedFieldMock(string $type, string $code, string $name)
-    {
+    protected function createFeedFieldMock(
+        string $type,
+        string $code,
+        string $name
+    ): PHPUnit_Framework_MockObject_MockObject {
         $field = $this->createMock(FeedFieldInterface::class);
         $field
             ->expects($this->once())
@@ -118,8 +121,9 @@ class SourceFieldBuilderTest extends PHPUnit_Framework_TestCase
      *
      * @return PHPUnit_Framework_MockObject_MockObject
      */
-    protected function createSourceFieldMock(string $code)
-    {
+    protected function createSourceFieldMock(
+        string $code
+    ): PHPUnit_Framework_MockObject_MockObject {
         $field = $this->createMock(SourceFieldInterface::class);
         $field
             ->expects($this->once())

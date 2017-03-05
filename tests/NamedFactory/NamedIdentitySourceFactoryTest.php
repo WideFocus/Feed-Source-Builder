@@ -4,18 +4,18 @@
  * https://www.widefocus.net
  */
 
-namespace WideFocus\Feed\Source\Builder\Tests\Manager;
+namespace WideFocus\Feed\Source\Builder\Tests\NamedFactory;
 
 use PHPUnit_Framework_TestCase;
-use WideFocus\Feed\Source\Builder\Manager\IdentitySourceManager;
+use WideFocus\Feed\Source\Builder\NamedFactory\NamedIdentitySourceFactory;
 use WideFocus\Feed\Source\IdentitySourceFactoryInterface;
 use WideFocus\Feed\Source\IdentitySourceInterface;
 use WideFocus\Feed\Source\SourceParametersInterface;
 
 /**
- * @coversDefaultClass \WideFocus\Feed\Source\Builder\Manager\IdentitySourceManager
+ * @coversDefaultClass \WideFocus\Feed\Source\Builder\NamedFactory\NamedIdentitySourceFactory
  */
-class IdentitySourceManagerTest extends PHPUnit_Framework_TestCase
+class NamedIdentitySourceFactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @return IdentitySourceInterface
@@ -34,15 +34,15 @@ class IdentitySourceManagerTest extends PHPUnit_Framework_TestCase
             ->with($parameters)
             ->willReturn($source);
 
-        $manager = new IdentitySourceManager();
-        $manager->addSourceFactory($factory, 'foo');
-        return $manager->createSource('foo', $parameters);
+        $namedFactory = new NamedIdentitySourceFactory();
+        $namedFactory->addSourceFactory($factory, 'foo');
+        return $namedFactory->createSource('foo', $parameters);
     }
 
     /**
      * @return void
      *
-     * @expectedException \WideFocus\Feed\Source\Builder\Manager\InvalidIdentitySourceException
+     * @expectedException \WideFocus\Feed\Source\Builder\NamedFactory\InvalidIdentitySourceException
      *
      * @covers ::createSource
      */
@@ -50,7 +50,7 @@ class IdentitySourceManagerTest extends PHPUnit_Framework_TestCase
     {
         $parameters = $this->createMock(SourceParametersInterface::class);
 
-        $manager = new IdentitySourceManager();
-        $manager->createSource('not_existing', $parameters);
+        $namedFactory = new NamedIdentitySourceFactory();
+        $namedFactory->createSource('not_existing', $parameters);
     }
 }

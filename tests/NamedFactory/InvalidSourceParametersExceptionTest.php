@@ -4,20 +4,20 @@
  * https://www.widefocus.net
  */
 
-namespace WideFocus\Feed\Writer\Builder\Tests\Manager;
+namespace WideFocus\Feed\Writer\Builder\Tests\NamedFactory;
 
 use PHPUnit_Framework_TestCase;
-use WideFocus\Feed\Source\Builder\Manager\InvalidSourceParametersException;
+use WideFocus\Feed\Source\Builder\NamedFactory\InvalidSourceParametersException;
 
 /**
- * @coversDefaultClass \WideFocus\Feed\Source\Builder\Manager\InvalidSourceParametersException
+ * @coversDefaultClass \WideFocus\Feed\Source\Builder\NamedFactory\InvalidSourceParametersException
  */
 class InvalidSourceParametersExceptionTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @return void
      *
-     * @expectedException \WideFocus\Feed\Source\Builder\Manager\InvalidSourceParametersException
+     * @expectedException \WideFocus\Feed\Source\Builder\NamedFactory\InvalidSourceParametersException
      * @expectedExceptionMessage A source parameters object with name foo has not been registered
      *
      * @covers ::notRegistered

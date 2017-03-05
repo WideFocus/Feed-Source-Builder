@@ -4,28 +4,28 @@
  * https://www.widefocus.net
  */
 
-namespace WideFocus\Feed\Source\Builder\Tests\Manager;
+namespace WideFocus\Feed\Source\Builder\Tests\NamedFactory;
 
 use PHPUnit_Framework_TestCase;
-use WideFocus\Feed\Source\Builder\Manager\SourceFieldManager;
+use WideFocus\Feed\Source\Builder\NamedFactory\NamedSourceFieldFactory;
 use WideFocus\Feed\Source\Field\SourceFieldCombinationInterface;
 use WideFocus\Feed\Source\Field\SourceFieldFactoryInterface;
 use WideFocus\Feed\Source\Field\SourceFieldInterface;
 use WideFocus\Feed\Source\SourceParametersInterface;
 
 /**
- * @coversDefaultClass \WideFocus\Feed\Source\Builder\Manager\SourceFieldManager
+ * @coversDefaultClass \WideFocus\Feed\Source\Builder\NamedFactory\NamedSourceFieldFactory
  */
-class SourceFieldManagerTest extends PHPUnit_Framework_TestCase
+class NamedSourceFieldFactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @return SourceFieldManager
+     * @return NamedSourceFieldFactory
      *
      * @covers ::__construct
      */
-    public function testConstructor(): SourceFieldManager
+    public function testConstructor(): NamedSourceFieldFactory
     {
-        return new SourceFieldManager(
+        return new NamedSourceFieldFactory(
             $this->createMock(SourceFieldFactoryInterface::class)
         );
     }
@@ -33,14 +33,14 @@ class SourceFieldManagerTest extends PHPUnit_Framework_TestCase
     /**
      * @depends testConstructor
      *
-     * @param SourceFieldManager $manager
+     * @param NamedSourceFieldFactory $namedFactory
      *
      * @return void
      *
      * @covers ::addFieldFactory
      * @covers ::createField
      */
-    public function testCreateField(SourceFieldManager $manager)
+    public function testCreateField(NamedSourceFieldFactory $namedFactory)
     {
         $parameters = $this->createMock(SourceParametersInterface::class);
 
@@ -52,28 +52,28 @@ class SourceFieldManagerTest extends PHPUnit_Framework_TestCase
             ->with($parameters)
             ->willReturn($field);
 
-        $manager->addFieldFactory($factory, 'foo');
+        $namedFactory->addFieldFactory($factory, 'foo');
         $this->assertEquals(
             $field,
-            $manager->createField('foo', $parameters)
+            $namedFactory->createField('foo', $parameters)
         );
     }
 
     /**
      * @depends testConstructor
      *
-     * @param SourceFieldManager $manager
+     * @param NamedSourceFieldFactory $namedFactory
      *
      * @return void
      *
-     * @expectedException \WideFocus\Feed\Source\Builder\Manager\InvalidSourceFieldException
+     * @expectedException \WideFocus\Feed\Source\Builder\NamedFactory\InvalidSourceFieldException
      *
      * @covers ::createField
      */
-    public function testCreateFieldException(SourceFieldManager $manager)
+    public function testCreateFieldException(NamedSourceFieldFactory $namedFactory)
     {
         $parameters = $this->createMock(SourceParametersInterface::class);
-        $manager->createField('not_existing', $parameters);
+        $namedFactory->createField('not_existing', $parameters);
     }
 
     /**
@@ -94,10 +94,10 @@ class SourceFieldManagerTest extends PHPUnit_Framework_TestCase
             ->with($parameters)
             ->willReturn($field);
 
-        $manager = new SourceFieldManager($factory);
+        $namedFactory = new NamedSourceFieldFactory($factory);
         $this->assertEquals(
             $field,
-            $manager->createCombinationField($parameters)
+            $namedFactory->createCombinationField($parameters)
         );
     }
 }

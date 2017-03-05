@@ -4,28 +4,28 @@
  * https://www.widefocus.net
  */
 
-namespace WideFocus\Feed\Source\Builder\Tests\Manager;
+namespace WideFocus\Feed\Source\Builder\Tests\NamedFactory;
 
 use PHPUnit_Framework_TestCase;
-use WideFocus\Feed\Source\Builder\Manager\SourceConditionManager;
+use WideFocus\Feed\Source\Builder\NamedFactory\NamedSourceConditionFactory;
 use WideFocus\Feed\Source\Condition\SourceConditionCombinationInterface;
 use WideFocus\Feed\Source\Condition\SourceConditionFactoryInterface;
 use WideFocus\Feed\Source\Condition\SourceConditionInterface;
 use WideFocus\Feed\Source\SourceParametersInterface;
 
 /**
- * @coversDefaultClass \WideFocus\Feed\Source\Builder\Manager\SourceConditionManager
+ * @coversDefaultClass \WideFocus\Feed\Source\Builder\NamedFactory\NamedSourceConditionFactory
  */
-class SourceConditionManagerTest extends PHPUnit_Framework_TestCase
+class NamedSourceConditionFactoryTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @return SourceConditionManager
+     * @return NamedSourceConditionFactory
      *
      * @covers ::__construct
      */
-    public function testConstructor(): SourceConditionManager
+    public function testConstructor(): NamedSourceConditionFactory
     {
-        return new SourceConditionManager(
+        return new NamedSourceConditionFactory(
             $this->createMock(SourceConditionFactoryInterface::class)
         );
     }
@@ -33,14 +33,14 @@ class SourceConditionManagerTest extends PHPUnit_Framework_TestCase
     /**
      * @depends testConstructor
      *
-     * @param SourceConditionManager $manager
+     * @param NamedSourceConditionFactory $namedFactory
      *
      * @return void
      *
      * @covers ::addConditionFactory
      * @covers ::createCondition
      */
-    public function testCreateCondition(SourceConditionManager $manager)
+    public function testCreateCondition(NamedSourceConditionFactory $namedFactory)
     {
         $parameters = $this->createMock(SourceParametersInterface::class);
 
@@ -52,28 +52,28 @@ class SourceConditionManagerTest extends PHPUnit_Framework_TestCase
             ->with($parameters)
             ->willReturn($condition);
 
-        $manager->addConditionFactory($factory, 'foo');
+        $namedFactory->addConditionFactory($factory, 'foo');
         $this->assertEquals(
             $condition,
-            $manager->createCondition('foo', $parameters)
+            $namedFactory->createCondition('foo', $parameters)
         );
     }
 
     /**
      * @depends testConstructor
      *
-     * @param SourceConditionManager $manager
+     * @param NamedSourceConditionFactory $namedFactory
      *
      * @return void
      *
-     * @expectedException \WideFocus\Feed\Source\Builder\Manager\InvalidSourceConditionException
+     * @expectedException \WideFocus\Feed\Source\Builder\NamedFactory\InvalidSourceConditionException
      *
      * @covers ::createCondition
      */
-    public function testCreateConditionException(SourceConditionManager $manager)
+    public function testCreateConditionException(NamedSourceConditionFactory $namedFactory)
     {
         $parameters = $this->createMock(SourceParametersInterface::class);
-        $manager->createCondition('not_existing', $parameters);
+        $namedFactory->createCondition('not_existing', $parameters);
     }
 
     /**
@@ -94,10 +94,10 @@ class SourceConditionManagerTest extends PHPUnit_Framework_TestCase
             ->with($parameters)
             ->willReturn($condition);
 
-        $manager = new SourceConditionManager($factory);
+        $namedFactory = new NamedSourceConditionFactory($factory);
         $this->assertEquals(
             $condition,
-            $manager->createCombinationCondition($parameters)
+            $namedFactory->createCombinationCondition($parameters)
         );
     }
 }
