@@ -4,16 +4,21 @@
  * https://www.widefocus.net
  */
 
-namespace WideFocus\Feed\Source\Builder\NamedFactory;
+namespace WideFocus\Feed\Source\Builder\FactoryAggregate;
 
 use WideFocus\Feed\Source\SourceParametersFactoryInterface;
 use WideFocus\Feed\Source\SourceParametersInterface;
 
 /**
- * Creates source parameters objects by name
+ * Creates source parameters objects by name.
  */
-interface NamedSourceParametersFactoryInterface
+class SourceParametersFactoryAggregate implements SourceParametersFactoryAggregateInterface
 {
+    /**
+     * @var SourceParametersFactoryInterface[]
+     */
+    private $factories = [];
+
     /**
      * Create parameters.
      *
@@ -28,7 +33,14 @@ interface NamedSourceParametersFactoryInterface
     public function createParameters(
         string $name,
         array $data = []
-    ): SourceParametersInterface;
+    ): SourceParametersInterface {
+        if (!array_key_exists($name, $this->factories)) {
+            throw InvalidSourceParametersException::notRegistered($name);
+        }
+
+        return $this->factories[$name]
+            ->createParameters($data);
+    }
 
     /**
      * Add a parameters factory.
@@ -41,5 +53,7 @@ interface NamedSourceParametersFactoryInterface
     public function addParametersFactory(
         SourceParametersFactoryInterface $factory,
         string $name
-    );
+    ) {
+        $this->factories[$name] = $factory;
+    }
 }

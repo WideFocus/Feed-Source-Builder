@@ -10,7 +10,7 @@ use PHPUnit_Framework_MockObject_MockObject;
 use PHPUnit_Framework_TestCase;
 use WideFocus\Feed\Entity\FeedInterface;
 use WideFocus\Feed\Entity\Field\FeedFieldInterface;
-use WideFocus\Feed\Source\Builder\NamedFactory\NamedSourceFieldFactoryInterface;
+use WideFocus\Feed\Source\Builder\FactoryAggregate\SourceFieldFactoryAggregateInterface;
 use WideFocus\Feed\Source\Builder\SourceFieldBuilder;
 use WideFocus\Feed\Source\Field\SourceFieldCombinationInterface;
 use WideFocus\Feed\Source\Field\SourceFieldInterface;
@@ -29,7 +29,7 @@ class SourceFieldBuilderTest extends PHPUnit_Framework_TestCase
     public function testConstructor(): SourceFieldBuilder
     {
         return new SourceFieldBuilder(
-            $this->createMock(NamedSourceFieldFactoryInterface::class)
+            $this->createMock(SourceFieldFactoryAggregateInterface::class)
         );
     }
 
@@ -65,7 +65,7 @@ class SourceFieldBuilderTest extends PHPUnit_Framework_TestCase
             ->withConsecutive([$fooSourceField, 'Foo'], [$barSourceField, 'Bar']);
 
         // Factory
-        $factory = $this->createMock(NamedSourceFieldFactoryInterface::class);
+        $factory = $this->createMock(SourceFieldFactoryAggregateInterface::class);
         $factory
             ->expects($this->at(0))
             ->method('createCombinationField')

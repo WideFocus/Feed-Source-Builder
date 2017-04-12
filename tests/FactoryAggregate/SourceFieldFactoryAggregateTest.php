@@ -4,28 +4,28 @@
  * https://www.widefocus.net
  */
 
-namespace WideFocus\Feed\Source\Builder\Tests\NamedFactory;
+namespace WideFocus\Feed\Source\Builder\Tests\FactoryAggregate;
 
 use PHPUnit_Framework_TestCase;
-use WideFocus\Feed\Source\Builder\NamedFactory\NamedSourceFieldFactory;
+use WideFocus\Feed\Source\Builder\FactoryAggregate\SourceFieldFactoryAggregate;
 use WideFocus\Feed\Source\Field\SourceFieldCombinationInterface;
 use WideFocus\Feed\Source\Field\SourceFieldFactoryInterface;
 use WideFocus\Feed\Source\Field\SourceFieldInterface;
 use WideFocus\Feed\Source\SourceParametersInterface;
 
 /**
- * @coversDefaultClass \WideFocus\Feed\Source\Builder\NamedFactory\NamedSourceFieldFactory
+ * @coversDefaultClass \WideFocus\Feed\Source\Builder\FactoryAggregate\SourceFieldFactoryAggregate
  */
-class NamedSourceFieldFactoryTest extends PHPUnit_Framework_TestCase
+class SourceFieldFactoryAggregateTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @return NamedSourceFieldFactory
+     * @return SourceFieldFactoryAggregate
      *
      * @covers ::__construct
      */
-    public function testConstructor(): NamedSourceFieldFactory
+    public function testConstructor(): SourceFieldFactoryAggregate
     {
-        return new NamedSourceFieldFactory(
+        return new SourceFieldFactoryAggregate(
             $this->createMock(SourceFieldFactoryInterface::class)
         );
     }
@@ -33,14 +33,14 @@ class NamedSourceFieldFactoryTest extends PHPUnit_Framework_TestCase
     /**
      * @depends testConstructor
      *
-     * @param NamedSourceFieldFactory $namedFactory
+     * @param SourceFieldFactoryAggregate $factoryAggregate
      *
      * @return void
      *
      * @covers ::addFieldFactory
      * @covers ::createField
      */
-    public function testCreateField(NamedSourceFieldFactory $namedFactory)
+    public function testCreateField(SourceFieldFactoryAggregate $factoryAggregate)
     {
         $parameters = $this->createMock(SourceParametersInterface::class);
 
@@ -52,28 +52,28 @@ class NamedSourceFieldFactoryTest extends PHPUnit_Framework_TestCase
             ->with($parameters)
             ->willReturn($field);
 
-        $namedFactory->addFieldFactory($factory, 'foo');
+        $factoryAggregate->addFieldFactory($factory, 'foo');
         $this->assertEquals(
             $field,
-            $namedFactory->createField('foo', $parameters)
+            $factoryAggregate->createField('foo', $parameters)
         );
     }
 
     /**
      * @depends testConstructor
      *
-     * @param NamedSourceFieldFactory $namedFactory
+     * @param SourceFieldFactoryAggregate $factoryAggregate
      *
      * @return void
      *
-     * @expectedException \WideFocus\Feed\Source\Builder\NamedFactory\InvalidSourceFieldException
+     * @expectedException \WideFocus\Feed\Source\Builder\FactoryAggregate\InvalidSourceFieldException
      *
      * @covers ::createField
      */
-    public function testCreateFieldException(NamedSourceFieldFactory $namedFactory)
+    public function testCreateFieldException(SourceFieldFactoryAggregate $factoryAggregate)
     {
         $parameters = $this->createMock(SourceParametersInterface::class);
-        $namedFactory->createField('not_existing', $parameters);
+        $factoryAggregate->createField('not_existing', $parameters);
     }
 
     /**
@@ -94,10 +94,10 @@ class NamedSourceFieldFactoryTest extends PHPUnit_Framework_TestCase
             ->with($parameters)
             ->willReturn($field);
 
-        $namedFactory = new NamedSourceFieldFactory($factory);
+        $factoryAggregate = new SourceFieldFactoryAggregate($factory);
         $this->assertEquals(
             $field,
-            $namedFactory->createCombinationField($parameters)
+            $factoryAggregate->createCombinationField($parameters)
         );
     }
 }

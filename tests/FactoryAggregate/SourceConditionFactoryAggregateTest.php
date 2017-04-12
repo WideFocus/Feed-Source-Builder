@@ -4,28 +4,28 @@
  * https://www.widefocus.net
  */
 
-namespace WideFocus\Feed\Source\Builder\Tests\NamedFactory;
+namespace WideFocus\Feed\Source\Builder\Tests\FactoryAggregate;
 
 use PHPUnit_Framework_TestCase;
-use WideFocus\Feed\Source\Builder\NamedFactory\NamedSourceConditionFactory;
+use WideFocus\Feed\Source\Builder\FactoryAggregate\SourceConditionFactoryAggregate;
 use WideFocus\Feed\Source\Condition\SourceConditionCombinationInterface;
 use WideFocus\Feed\Source\Condition\SourceConditionFactoryInterface;
 use WideFocus\Feed\Source\Condition\SourceConditionInterface;
 use WideFocus\Feed\Source\SourceParametersInterface;
 
 /**
- * @coversDefaultClass \WideFocus\Feed\Source\Builder\NamedFactory\NamedSourceConditionFactory
+ * @coversDefaultClass \WideFocus\Feed\Source\Builder\FactoryAggregate\SourceConditionFactoryAggregate
  */
-class NamedSourceConditionFactoryTest extends PHPUnit_Framework_TestCase
+class SourceConditionFactoryAggregateTest extends PHPUnit_Framework_TestCase
 {
     /**
-     * @return NamedSourceConditionFactory
+     * @return SourceConditionFactoryAggregate
      *
      * @covers ::__construct
      */
-    public function testConstructor(): NamedSourceConditionFactory
+    public function testConstructor(): SourceConditionFactoryAggregate
     {
-        return new NamedSourceConditionFactory(
+        return new SourceConditionFactoryAggregate(
             $this->createMock(SourceConditionFactoryInterface::class)
         );
     }
@@ -33,14 +33,14 @@ class NamedSourceConditionFactoryTest extends PHPUnit_Framework_TestCase
     /**
      * @depends testConstructor
      *
-     * @param NamedSourceConditionFactory $namedFactory
+     * @param SourceConditionFactoryAggregate $factoryAggregate
      *
      * @return void
      *
      * @covers ::addConditionFactory
      * @covers ::createCondition
      */
-    public function testCreateCondition(NamedSourceConditionFactory $namedFactory)
+    public function testCreateCondition(SourceConditionFactoryAggregate $factoryAggregate)
     {
         $parameters = $this->createMock(SourceParametersInterface::class);
 
@@ -52,28 +52,28 @@ class NamedSourceConditionFactoryTest extends PHPUnit_Framework_TestCase
             ->with($parameters)
             ->willReturn($condition);
 
-        $namedFactory->addConditionFactory($factory, 'foo');
+        $factoryAggregate->addConditionFactory($factory, 'foo');
         $this->assertEquals(
             $condition,
-            $namedFactory->createCondition('foo', $parameters)
+            $factoryAggregate->createCondition('foo', $parameters)
         );
     }
 
     /**
      * @depends testConstructor
      *
-     * @param NamedSourceConditionFactory $namedFactory
+     * @param SourceConditionFactoryAggregate $factoryAggregate
      *
      * @return void
      *
-     * @expectedException \WideFocus\Feed\Source\Builder\NamedFactory\InvalidSourceConditionException
+     * @expectedException \WideFocus\Feed\Source\Builder\FactoryAggregate\InvalidSourceConditionException
      *
      * @covers ::createCondition
      */
-    public function testCreateConditionException(NamedSourceConditionFactory $namedFactory)
+    public function testCreateConditionException(SourceConditionFactoryAggregate $factoryAggregate)
     {
         $parameters = $this->createMock(SourceParametersInterface::class);
-        $namedFactory->createCondition('not_existing', $parameters);
+        $factoryAggregate->createCondition('not_existing', $parameters);
     }
 
     /**
@@ -94,10 +94,10 @@ class NamedSourceConditionFactoryTest extends PHPUnit_Framework_TestCase
             ->with($parameters)
             ->willReturn($condition);
 
-        $namedFactory = new NamedSourceConditionFactory($factory);
+        $factoryAggregate = new SourceConditionFactoryAggregate($factory);
         $this->assertEquals(
             $condition,
-            $namedFactory->createCombinationCondition($parameters)
+            $factoryAggregate->createCombinationCondition($parameters)
         );
     }
 }

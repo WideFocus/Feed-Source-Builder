@@ -10,7 +10,7 @@ use PHPUnit_Framework_MockObject_MockObject;
 use PHPUnit_Framework_TestCase;
 use WideFocus\Feed\Entity\Condition\FeedConditionInterface;
 use WideFocus\Feed\Entity\FeedInterface;
-use WideFocus\Feed\Source\Builder\NamedFactory\NamedSourceConditionFactoryInterface;
+use WideFocus\Feed\Source\Builder\FactoryAggregate\SourceConditionFactoryAggregateInterface;
 use WideFocus\Feed\Source\Builder\SourceConditionBuilder;
 use WideFocus\Feed\Source\Condition\SourceConditionCombinationInterface;
 use WideFocus\Feed\Source\Condition\SourceConditionInterface;
@@ -29,7 +29,7 @@ class SourceConditionBuilderTest extends PHPUnit_Framework_TestCase
     public function testConstructor(): SourceConditionBuilder
     {
         return new SourceConditionBuilder(
-            $this->createMock(NamedSourceConditionFactoryInterface::class)
+            $this->createMock(SourceConditionFactoryAggregateInterface::class)
         );
     }
 
@@ -80,7 +80,7 @@ class SourceConditionBuilderTest extends PHPUnit_Framework_TestCase
             ->withConsecutive($fooSourceCondition, $barSourceCondition);
 
         // Factory
-        $factory = $this->createMock(NamedSourceConditionFactoryInterface::class);
+        $factory = $this->createMock(SourceConditionFactoryAggregateInterface::class);
         $factory
             ->expects($this->at(0))
             ->method('createCombinationCondition')

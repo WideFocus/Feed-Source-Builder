@@ -4,20 +4,20 @@
  * https://www.widefocus.net
  */
 
-namespace WideFocus\Feed\Writer\Builder\Tests\NamedFactory;
+namespace WideFocus\Feed\Writer\Builder\Tests\FactoryAggregate;
 
 use PHPUnit_Framework_TestCase;
-use WideFocus\Feed\Source\Builder\NamedFactory\InvalidSourceConditionException;
+use WideFocus\Feed\Source\Builder\FactoryAggregate\InvalidSourceConditionException;
 
 /**
- * @coversDefaultClass \WideFocus\Feed\Source\Builder\NamedFactory\InvalidSourceConditionException
+ * @coversDefaultClass \WideFocus\Feed\Source\Builder\FactoryAggregate\InvalidSourceConditionException
  */
 class InvalidSourceConditionExceptionTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @return void
      *
-     * @expectedException \WideFocus\Feed\Source\Builder\NamedFactory\InvalidSourceConditionException
+     * @expectedException \WideFocus\Feed\Source\Builder\FactoryAggregate\InvalidSourceConditionException
      * @expectedExceptionMessage A source condition with name foo has not been registered
      *
      * @covers ::notRegistered

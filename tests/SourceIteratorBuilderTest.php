@@ -8,7 +8,7 @@ namespace WideFocus\Feed\Source\Builder\Tests;
 
 use PHPUnit_Framework_TestCase;
 use WideFocus\Feed\Entity\FeedInterface;
-use WideFocus\Feed\Source\Builder\NamedFactory\NamedIdentitySourceFactoryInterface;
+use WideFocus\Feed\Source\Builder\FactoryAggregate\IdentitySourceFactoryAggregateInterface;
 use WideFocus\Feed\Source\Builder\SourceConditionBuilderInterface;
 use WideFocus\Feed\Source\Builder\SourceFieldBuilderInterface;
 use WideFocus\Feed\Source\Builder\SourceIteratorBuilder;
@@ -34,7 +34,7 @@ class SourceIteratorBuilderTest extends PHPUnit_Framework_TestCase
     {
         return new SourceIteratorBuilder(
             $this->createMock(SourceIteratorFactoryInterface::class),
-            $this->createMock(NamedIdentitySourceFactoryInterface::class),
+            $this->createMock(IdentitySourceFactoryAggregateInterface::class),
             $this->createMock(SourceConditionBuilderInterface::class),
             $this->createMock(SourceFieldBuilderInterface::class),
             $this->createMock(SourceParametersBuilderInterface::class)
@@ -65,7 +65,7 @@ class SourceIteratorBuilderTest extends PHPUnit_Framework_TestCase
 
         $identitySource = $this->createMock(IdentitySourceInterface::class);
 
-        $identitySourceFactory = $this->createMock(NamedIdentitySourceFactoryInterface::class);
+        $identitySourceFactory = $this->createMock(IdentitySourceFactoryAggregateInterface::class);
         $identitySourceFactory
             ->expects($this->once())
             ->method('createSource')

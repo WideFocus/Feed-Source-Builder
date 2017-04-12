@@ -8,7 +8,7 @@ namespace WideFocus\Feed\Source\Builder;
 
 use WideFocus\Feed\Entity\Condition\FeedConditionInterface;
 use WideFocus\Feed\Entity\FeedInterface;
-use WideFocus\Feed\Source\Builder\NamedFactory\NamedSourceConditionFactoryInterface;
+use WideFocus\Feed\Source\Builder\FactoryAggregate\SourceConditionFactoryAggregateInterface;
 use WideFocus\Feed\Source\Condition\SourceConditionCombinationInterface;
 use WideFocus\Feed\Source\Condition\SourceConditionInterface;
 use WideFocus\Feed\Source\SourceParametersInterface;
@@ -19,16 +19,16 @@ use WideFocus\Feed\Source\SourceParametersInterface;
 class SourceConditionBuilder implements SourceConditionBuilderInterface
 {
     /**
-     * @var NamedSourceConditionFactoryInterface
+     * @var SourceConditionFactoryAggregateInterface
      */
     private $conditionFactory;
 
     /**
      * Constructor.
      *
-     * @param NamedSourceConditionFactoryInterface $conditionFactory
+     * @param SourceConditionFactoryAggregateInterface $conditionFactory
      */
-    public function __construct(NamedSourceConditionFactoryInterface $conditionFactory)
+    public function __construct(SourceConditionFactoryAggregateInterface $conditionFactory)
     {
         $this->conditionFactory = $conditionFactory;
     }

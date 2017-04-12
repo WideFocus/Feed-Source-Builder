@@ -8,7 +8,7 @@ namespace WideFocus\Feed\Source\Builder;
 
 use WideFocus\Feed\Entity\Field\FeedFieldInterface;
 use WideFocus\Feed\Entity\FeedInterface;
-use WideFocus\Feed\Source\Builder\NamedFactory\NamedSourceFieldFactoryInterface;
+use WideFocus\Feed\Source\Builder\FactoryAggregate\SourceFieldFactoryAggregateInterface;
 use WideFocus\Feed\Source\Field\SourceFieldCombinationInterface;
 use WideFocus\Feed\Source\Field\SourceFieldInterface;
 use WideFocus\Feed\Source\SourceParametersInterface;
@@ -19,16 +19,16 @@ use WideFocus\Feed\Source\SourceParametersInterface;
 class SourceFieldBuilder implements SourceFieldBuilderInterface
 {
     /**
-     * @var NamedSourceFieldFactoryInterface
+     * @var SourceFieldFactoryAggregateInterface
      */
     private $fieldFactory;
 
     /**
      * Constructor.
      *
-     * @param NamedSourceFieldFactoryInterface $fieldFactory
+     * @param SourceFieldFactoryAggregateInterface $fieldFactory
      */
-    public function __construct(NamedSourceFieldFactoryInterface $fieldFactory)
+    public function __construct(SourceFieldFactoryAggregateInterface $fieldFactory)
     {
         $this->fieldFactory = $fieldFactory;
     }

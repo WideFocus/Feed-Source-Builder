@@ -4,7 +4,7 @@
  * https://www.widefocus.net
  */
 
-namespace WideFocus\Feed\Source\Builder\NamedFactory;
+namespace WideFocus\Feed\Source\Builder\FactoryAggregate;
 
 use WideFocus\Feed\Source\Condition\SourceConditionCombinationInterface;
 use WideFocus\Feed\Source\Condition\SourceConditionFactoryInterface;
@@ -14,7 +14,7 @@ use WideFocus\Feed\Source\SourceParametersInterface;
 /**
  * Creates source conditions by name.
  */
-class NamedSourceConditionFactory implements NamedSourceConditionFactoryInterface
+class SourceConditionFactoryAggregate implements SourceConditionFactoryAggregateInterface
 {
     /**
      * @var SourceConditionFactoryInterface[]

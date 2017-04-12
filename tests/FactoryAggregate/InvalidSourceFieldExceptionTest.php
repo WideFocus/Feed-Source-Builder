@@ -4,20 +4,20 @@
  * https://www.widefocus.net
  */
 
-namespace WideFocus\Feed\Writer\Builder\Tests\NamedFactory;
+namespace WideFocus\Feed\Writer\Builder\Tests\FactoryAggregate;
 
 use PHPUnit_Framework_TestCase;
-use WideFocus\Feed\Source\Builder\NamedFactory\InvalidSourceFieldException;
+use WideFocus\Feed\Source\Builder\FactoryAggregate\InvalidSourceFieldException;
 
 /**
- * @coversDefaultClass \WideFocus\Feed\Source\Builder\NamedFactory\InvalidSourceFieldException
+ * @coversDefaultClass \WideFocus\Feed\Source\Builder\FactoryAggregate\InvalidSourceFieldException
  */
 class InvalidSourceFieldExceptionTest extends PHPUnit_Framework_TestCase
 {
     /**
      * @return void
      *
-     * @expectedException \WideFocus\Feed\Source\Builder\NamedFactory\InvalidSourceFieldException
+     * @expectedException \WideFocus\Feed\Source\Builder\FactoryAggregate\InvalidSourceFieldException
      * @expectedExceptionMessage A source field with name foo has not been registered
      *
      * @covers ::notRegistered

@@ -4,7 +4,7 @@
  * https://www.widefocus.net
  */
 
-namespace WideFocus\Feed\Source\Builder\NamedFactory;
+namespace WideFocus\Feed\Source\Builder\FactoryAggregate;
 
 use WideFocus\Feed\Source\Field\SourceFieldCombinationInterface;
 use WideFocus\Feed\Source\Field\SourceFieldFactoryInterface;
@@ -14,7 +14,7 @@ use WideFocus\Feed\Source\SourceParametersInterface;
 /**
  * Creates source fields by name.
  */
-interface NamedSourceFieldFactoryInterface
+interface SourceFieldFactoryAggregateInterface
 {
     const COMBINATION_NAME = 'combination';
 

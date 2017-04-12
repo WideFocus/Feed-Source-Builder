@@ -7,7 +7,7 @@
 namespace WideFocus\Feed\Source\Builder;
 
 use WideFocus\Feed\Entity\FeedInterface;
-use WideFocus\Feed\Source\Builder\NamedFactory\NamedSourceParametersFactoryInterface;
+use WideFocus\Feed\Source\Builder\FactoryAggregate\SourceParametersFactoryAggregateInterface;
 use WideFocus\Feed\Source\SourceParametersInterface;
 
 /**
@@ -16,17 +16,17 @@ use WideFocus\Feed\Source\SourceParametersInterface;
 class SourceParametersBuilder implements SourceParametersBuilderInterface
 {
     /**
-     * @var NamedSourceParametersFactoryInterface
+     * @var SourceParametersFactoryAggregateInterface
      */
     private $parametersFactory;
 
     /**
      * Constructor.
      *
-     * @param NamedSourceParametersFactoryInterface $parametersFactory
+     * @param SourceParametersFactoryAggregateInterface $parametersFactory
      */
     public function __construct(
-        NamedSourceParametersFactoryInterface $parametersFactory
+        SourceParametersFactoryAggregateInterface $parametersFactory
     ) {
         $this->parametersFactory = $parametersFactory;
     }

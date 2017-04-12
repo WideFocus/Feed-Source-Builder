@@ -7,7 +7,7 @@
 namespace WideFocus\Feed\Source\Builder;
 
 use WideFocus\Feed\Entity\FeedInterface;
-use WideFocus\Feed\Source\Builder\NamedFactory\NamedIdentitySourceFactoryInterface;
+use WideFocus\Feed\Source\Builder\FactoryAggregate\IdentitySourceFactoryAggregateInterface;
 use WideFocus\Feed\Source\Iterator\SourceIteratorFactoryInterface;
 use WideFocus\Feed\Source\Iterator\SourceIteratorInterface;
 
@@ -19,7 +19,7 @@ class SourceIteratorBuilder implements SourceIteratorBuilderInterface
     private $sourceIteratorFactory;
 
     /**
-     * @var NamedIdentitySourceFactoryInterface
+     * @var IdentitySourceFactoryAggregateInterface
      */
     private $identitySourceFactory;
 
@@ -41,15 +41,15 @@ class SourceIteratorBuilder implements SourceIteratorBuilderInterface
     /**
      * Constructor.
      *
-     * @param SourceIteratorFactoryInterface      $sourceIteratorFactory
-     * @param NamedIdentitySourceFactoryInterface $identitySourceFactory
-     * @param SourceConditionBuilderInterface     $sourceConditionBuilder
-     * @param SourceFieldBuilderInterface         $sourceFieldBuilder
-     * @param SourceParametersBuilderInterface    $parametersBuilder
+     * @param SourceIteratorFactoryInterface          $sourceIteratorFactory
+     * @param IdentitySourceFactoryAggregateInterface $identitySourceFactory
+     * @param SourceConditionBuilderInterface         $sourceConditionBuilder
+     * @param SourceFieldBuilderInterface             $sourceFieldBuilder
+     * @param SourceParametersBuilderInterface        $parametersBuilder
      */
     public function __construct(
         SourceIteratorFactoryInterface $sourceIteratorFactory,
-        NamedIdentitySourceFactoryInterface $identitySourceFactory,
+        IdentitySourceFactoryAggregateInterface $identitySourceFactory,
         SourceConditionBuilderInterface $sourceConditionBuilder,
         SourceFieldBuilderInterface $sourceFieldBuilder,
         SourceParametersBuilderInterface $parametersBuilder

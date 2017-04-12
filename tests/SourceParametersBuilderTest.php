@@ -10,7 +10,7 @@ use ArrayIterator;
 use PHPUnit_Framework_TestCase;
 use WideFocus\Feed\Entity\FeedInterface;
 use WideFocus\Feed\Entity\Source\FeedSourceParametersInterface;
-use WideFocus\Feed\Source\Builder\NamedFactory\NamedSourceParametersFactoryInterface;
+use WideFocus\Feed\Source\Builder\FactoryAggregate\SourceParametersFactoryAggregateInterface;
 use WideFocus\Feed\Source\Builder\SourceParametersBuilder;
 use WideFocus\Feed\Source\SourceParametersInterface;
 
@@ -27,7 +27,7 @@ class SourceParametersBuilderTest extends PHPUnit_Framework_TestCase
     public function testConstructor(): SourceParametersBuilder
     {
         return new SourceParametersBuilder(
-            $this->createMock(NamedSourceParametersFactoryInterface::class)
+            $this->createMock(SourceParametersFactoryAggregateInterface::class)
         );
     }
 
@@ -59,7 +59,7 @@ class SourceParametersBuilderTest extends PHPUnit_Framework_TestCase
 
         $sourceParameters = $this->createMock(SourceParametersInterface::class);
 
-        $parametersFactory = $this->createMock(NamedSourceParametersFactoryInterface::class);
+        $parametersFactory = $this->createMock(SourceParametersFactoryAggregateInterface::class);
         $parametersFactory
             ->expects($this->once())
             ->method('createParameters')

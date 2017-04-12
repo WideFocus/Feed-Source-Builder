@@ -4,7 +4,7 @@
  * https://www.widefocus.net
  */
 
-namespace WideFocus\Feed\Source\Builder\NamedFactory;
+namespace WideFocus\Feed\Source\Builder\FactoryAggregate;
 
 use WideFocus\Feed\Source\IdentitySourceFactoryInterface;
 use WideFocus\Feed\Source\IdentitySourceInterface;
@@ -13,8 +13,13 @@ use WideFocus\Feed\Source\SourceParametersInterface;
 /**
  * Creates identity sources by name.
  */
-interface NamedIdentitySourceFactoryInterface
+class IdentitySourceFactoryAggregate implements IdentitySourceFactoryAggregateInterface
 {
+    /**
+     * @var IdentitySourceFactoryInterface[]
+     */
+    private $factories = [];
+
     /**
      * Create an identity source.
      *
@@ -22,11 +27,20 @@ interface NamedIdentitySourceFactoryInterface
      * @param SourceParametersInterface $parameters
      *
      * @return IdentitySourceInterface
+     *
+     * @throws InvalidIdentitySourceException When a requested identity source
+     *   does not exist.
      */
     public function createSource(
         string $name,
         SourceParametersInterface $parameters
-    ): IdentitySourceInterface;
+    ): IdentitySourceInterface {
+        if (!array_key_exists($name, $this->factories)) {
+            throw InvalidIdentitySourceException::notRegistered($name);
+        }
+        return $this->factories[$name]
+            ->createSource($parameters);
+    }
 
     /**
      * Add a source factory.
@@ -39,5 +53,7 @@ interface NamedIdentitySourceFactoryInterface
     public function addSourceFactory(
         IdentitySourceFactoryInterface $factory,
         string $name
-    );
+    ) {
+        $this->factories[$name] = $factory;
+    }
 }
