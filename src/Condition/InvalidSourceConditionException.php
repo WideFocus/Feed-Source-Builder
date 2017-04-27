@@ -4,7 +4,7 @@
  * https://www.widefocus.net
  */
 
-namespace WideFocus\Feed\Source\Builder\FactoryAggregate;
+namespace WideFocus\Feed\Source\Builder\Condition;
 
 use InvalidArgumentException;
 
@@ -16,17 +16,14 @@ class InvalidSourceConditionException extends InvalidArgumentException
     /**
      * Create an exception for a condition that has not been registered.
      *
-     * @param string $name
-     *
-     * @return InvalidSourceConditionException
+     * @param string $operator
      */
-    public static function notRegistered(
-        string $name
-    ): InvalidSourceConditionException {
-        return new static(
+    public function __construct(string $operator)
+    {
+        parent::__construct(
             sprintf(
                 'A source condition with name %s has not been registered',
-                $name
+                $operator
             )
         );
     }

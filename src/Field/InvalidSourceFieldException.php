@@ -4,7 +4,7 @@
  * https://www.widefocus.net
  */
 
-namespace WideFocus\Feed\Source\Builder\FactoryAggregate;
+namespace WideFocus\Feed\Source\Builder\Field;
 
 use InvalidArgumentException;
 
@@ -16,17 +16,14 @@ class InvalidSourceFieldException extends InvalidArgumentException
     /**
      * Create an exception for a field that has not been registered.
      *
-     * @param string $name
-     *
-     * @return InvalidSourceFieldException
+     * @param string $type
      */
-    public static function notRegistered(
-        string $name
-    ): InvalidSourceFieldException {
-        return new static(
+    public function __construct(string $type)
+    {
+        parent::__construct(
             sprintf(
                 'A source field with name %s has not been registered',
-                $name
+                $type
             )
         );
     }

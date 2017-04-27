@@ -4,7 +4,7 @@
  * https://www.widefocus.net
  */
 
-namespace WideFocus\Feed\Source\Builder\FactoryAggregate;
+namespace WideFocus\Feed\Source\Builder\Source;
 
 use InvalidArgumentException;
 
@@ -16,17 +16,14 @@ class InvalidIdentitySourceException extends InvalidArgumentException
     /**
      * Create an exception for a source that has not been registered.
      *
-     * @param string $name
-     *
-     * @return InvalidIdentitySourceException
+     * @param string $type
      */
-    public static function notRegistered(
-        string $name
-    ): InvalidIdentitySourceException {
-        return new static(
+    public function __construct(string $type)
+    {
+        parent::__construct(
             sprintf(
                 'An identity source with name %s has not been registered',
-                $name
+                $type
             )
         );
     }
