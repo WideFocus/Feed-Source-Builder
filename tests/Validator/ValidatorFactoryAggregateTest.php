@@ -50,7 +50,7 @@ class ValidatorFactoryAggregateTest extends TestCase
      *
      * @covers ::create
      */
-    public function testCreateConditionException()
+    public function testCreateException()
     {
         $constraints = $this->createMock(ParameterBagInterface::class);
 
